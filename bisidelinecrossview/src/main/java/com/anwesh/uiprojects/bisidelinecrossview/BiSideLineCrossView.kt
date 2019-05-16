@@ -217,4 +217,12 @@ class BiSideLineCrossView(ctx : Context) : View(ctx) {
             }
         }
     }
+
+    companion object {
+        fun create(activity : Activity) : BiSideLineCrossView {
+            val view : BiSideLineCrossView = BiSideLineCrossView(activity)
+            activity.setContentView(view)
+            return view
+        }
+    }
 }
