@@ -170,4 +170,28 @@ class BiSideLineCrossView(ctx : Context) : View(ctx) {
             return this
         }
     }
+
+    data class BiSideLineCross(var i : Int) {
+
+        private val root : BSLCNode = BSLCNode(0)
+        private var dir : Int = 1
+        private var curr : BSLCNode = root
+
+        fun draw(canvas : Canvas, paint : Paint) {
+            root.draw(canvas, paint)
+        }
+
+        fun update(cb : (Int, Float) -> Unit) {
+            curr.update {i, scl ->
+                curr = curr.getNext(dir) {
+                    dir *= -1
+                }
+                cb(i, scl)
+            }
+        }
+
+        fun startUpdating(cb : () -> Unit) {
+            curr.startUpdating(cb)
+        }
+    }
 }
