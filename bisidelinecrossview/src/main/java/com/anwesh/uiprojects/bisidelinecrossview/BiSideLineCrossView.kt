@@ -18,9 +18,10 @@ val scGap : Float = 0.05f
 val scDiv : Double = 0.51
 val strokeFactor : Int = 90
 val sizeFactor : Float = 2.9f
-val foreColor : Int = Color.parseColor("#9C27B0")
+val foreColor : Int = Color.parseColor("#283593")
 val backColor : Int = Color.parseColor("#BDBDBD")
 val rotDeg : Float = 45f
+val delay : Long = 20
 
 fun Int.inverse() : Float = 1f / this
 fun Float.scaleFactor() : Float = Math.floor(this / scDiv).toFloat()
@@ -38,7 +39,7 @@ fun Canvas.drawBiSideLineCross(i : Int, sc1 : Float, sc2 : Float, size : Float, 
     val sf : Float = 1f - 2 * i
     save()
     scale(sf, 1f)
-    translate(x * sc1i, 0f)
+    translate(-x + x * sc1i, 0f)
     rotate(rotDeg * sc2i)
     drawLine(0f, -size, 0f, size, paint)
     restore()
@@ -55,7 +56,7 @@ fun Canvas.drawBSLCNode(i : Int, scale : Float, paint : Paint) {
     paint.strokeWidth = Math.min(w, h) / strokeFactor
     paint.strokeCap = Paint.Cap.ROUND
     save()
-    translate(gap * (i + 1), h / 2)
+    translate(w / 2, gap * (i + 1))
     for (j in 0..(lines - 1)) {
         drawBiSideLineCross(j, sc1, sc2, size, w / 2, paint)
     }
@@ -106,7 +107,7 @@ class BiSideLineCrossView(ctx : Context) : View(ctx) {
             if (animated) {
                 cb()
                 try {
-                    Thread.sleep(50)
+                    Thread.sleep(delay)
                     view.invalidate()
                 } catch(ex : Exception) {
 
