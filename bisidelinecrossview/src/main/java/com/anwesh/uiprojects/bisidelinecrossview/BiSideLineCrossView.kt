@@ -194,4 +194,26 @@ class BiSideLineCrossView(ctx : Context) : View(ctx) {
             curr.startUpdating(cb)
         }
     }
+
+    data class Renderer(var view : BiSideLineCrossView) {
+
+        private val animator : Animator = Animator(view)
+        private val bslc : BiSideLineCross = BiSideLineCross(0)
+
+        fun render(canvas : Canvas, paint : Paint) {
+            canvas.drawColor(backColor)
+            bslc.draw(canvas, paint)
+            animator.animate {
+                bslc.update {i, scl ->
+                    animator.stop()
+                }
+            }
+        }
+
+        fun handleTap() {
+            bslc.startUpdating {
+                animator.start()
+            }
+        }
+    }
 }
